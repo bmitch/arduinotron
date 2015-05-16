@@ -1,6 +1,10 @@
 
 #define FREQ_CONTROL         (0)
+#define LFO_CONTROL          (1)
 
+int syncPhaseInc;
+int intensity; // Amount the freq will increase
+int lfo; // lfo rate
 
 uint16_t midiTable[] = {
   17,18,19,20,22,23,24,26,27,29,31,32,34,36,38,41,43,46,48,51,54,58,61,65,69,73,
@@ -13,20 +17,34 @@ uint16_t midiTable[] = {
   22121,23436,24830,26306
 };
 
+
 uint16_t mapMidi(uint16_t input) {
   return (midiTable[(1023-input) >> 3]);
 }
 
+
 void setup() {
   
-  Serial.begin(9600);      // open the serial port at 9600 bps:    
-
+  Serial.begin(9600);
+  intensity = 2;
+  lfo = 100;
 }
 
 void loop() {
 
-    int syncPhaseInc = mapMidi(analogRead(FREQ_CONTROL));
-    Serial.println(syncPhaseInc);
+  // LFO low
+  syncPhaseInc = mapMidi(analogRead(FREQ_CONTROL));
+  lfo = analogRead(LFO_CONTROL);
+  lfo = map(lfo, 0, 627, 0, 1000);
 
-    tone(8, syncPhaseInc, 10);
+  Serial.println(lfo);
+  tone(8, syncPhaseInc, lfo);
+  delay(lfo);
+
+  // LFO high
+  syncPhaseInc = mapMidi(analogRead(FREQ_CONTROL)) * intensity;
+  tone(8, syncPhaseInc, lfo);
+  delay(lfo);
+
+
 }
