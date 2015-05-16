@@ -35,16 +35,17 @@ void loop() {
   // LFO low
   syncPhaseInc = mapMidi(analogRead(FREQ_CONTROL));
   lfo = analogRead(LFO_CONTROL);
-  lfo = map(lfo, 0, 627, 0, 1000);
+  lfo = map(lfo, 0, 627, 10, 1000);
+  delay(lfo);
 
   Serial.println(lfo);
   tone(8, syncPhaseInc, lfo);
-  delay(lfo);
 
   // LFO high
+
   syncPhaseInc = mapMidi(analogRead(FREQ_CONTROL)) * intensity;
-  tone(8, syncPhaseInc, lfo);
   delay(lfo);
+  tone(8, syncPhaseInc, lfo);
 
 
 }
