@@ -1,4 +1,4 @@
-The goal of this project is to clone the behaviour of the Kork Monotron Delay.
+The goal of this project is to clone the behaviour of the Korg Monotron Delay.
 
 - Ability to control the LFO.
 - Ability to control the intensity of the frequency change.
